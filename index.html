@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Happy Birthday Ashley 🎂</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .card {
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      text-align: center;
+      max-width: 90%;
+      width: 400px;
+      position: relative;
+      animation: popIn 1s ease forwards;
+      z-index: 2;
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0.5); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    h1 {
+      font-size: 2em;
+      color: #ff4e8c;
+      margin-bottom: 20px;
+      animation: glow 2s infinite alternate;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 5px #ff7eb9; }
+      to { text-shadow: 0 0 20px #ff4e8c; }
+    }
+
+    .message {
+      font-size: 1.1em;
+      color: #444;
+      line-height: 1.6em;
+      white-space: pre-line;
+      opacity: 0;
+      animation: fadeIn 2s ease forwards;
+      animation-delay: 2s;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    .next-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #ff4e8c;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: 0.3s;
+    }
+    .next-btn:hover { background: #ff2a70; }
+
+    /* Balloons */
+    .balloon {
+      position: absolute;
+      bottom: -150px;
+      width: 60px;
+      height: 80px;
+      background: #ff7eb9;
+      border-radius: 50%;
+      animation: float 6s ease-in-out infinite;
+      z-index: 1;
+    }
+    .balloon:nth-child(2){ left: 30%; background:#7afcff; animation-duration:7s; }
+    .balloon:nth-child(3){ left: 60%; background:#feff9c; animation-duration:5s; }
+    .balloon:nth-child(4){ left: 80%; background:#caffbf; animation-duration:8s; }
+
+    @keyframes float {
+      0% { transform: translateY(0) rotate(0); }
+      50% { transform: translateY(-300px) rotate(20deg); }
+      100% { transform: translateY(0) rotate(0); }
+    }
+
+    /* Confetti */
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background: red;
+      top: -10px;
+      animation: fall linear forwards;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Balloons -->
+  <div class="balloon"></div>
+  <div class="balloon"></div>
+  <div class="balloon"></div>
+  <div class="balloon"></div>
+
+  <!-- Card -->
+  <div class="card" id="card">
+    <h1 id="title">✨ 22 April 2025 ✨</h1>
+    <p class="message" id="msg">
+      The day we first met… and nothing’s been the same since 💖
+    </p>
+    <button class="next-btn" onclick="nextStep()">Next ➡️</button>
+  </div>
+
+  <!-- Background Music -->
+  <audio id="bg-music" autoplay loop>
+    <source src="music.mp3" type="audio/mpeg">
+    Your browser does not support audio.
+  </audio>
+
+  <script>
+    let step = 0;
+    const title = document.getElementById("title");
+    const msg = document.getElementById("msg");
+    const music = document.getElementById("bg-music");
+
+    // Handle autoplay restrictions on phones
+    document.body.addEventListener("click", () => {
+      music.play().catch(()=>{});
+    }, { once:true });
+
+    function nextStep(){
+      step++;
+      if(step === 1){
+        title.innerText = "🌸 Every day since then…";
+        msg.innerText = "…has been brighter, softer, and more beautiful with you in it.";
+      } else if(step === 2){
+        title.innerText = "🎂 Happy Birthday Ashley 🎂";
+        msg.innerText = "Ashley, today is your special day… and I just want to say how truly grateful I am to have you in my life.\n\n" +
+                        "You light up every room you walk into—not just with your smile but with your kindness, warmth, and the way you make people feel cared for.\n\n" +
+                        "May this year bring you endless laughter, sweet moments, and every little thing your heart has been wishing for.\n\n" +
+                        "Happy Birthday, Ashley 💖 You mean more to me than words can capture.";
+        launchConfetti();
+      } else if(step === 3){
+        title.innerText = "💌 A Little Secret…";
+        msg.innerText = "You’re not just my friend, Ashley… you’re someone truly extraordinary to me. 💕";
+      } else {
+        title.innerText = "🌟 The End 🌟";
+        msg.innerText = "But really… it’s just the beginning 💖";
+      }
+    }
+
+    // Confetti function
+    function launchConfetti(){
+      for(let i=0; i<100; i++){
+        const confetti = document.createElement("div");
+        confetti.classList.add("confetti");
+        document.body.appendChild(confetti);
+
+        const colors = ["#ff7eb9", "#7afcff", "#feff9c", "#caffbf", "#b28dff"];
+        confetti.style.backgroundColor = colors[Math.floor(Math.random()*colors.length)];
+        confetti.style.left = Math.random() * window.innerWidth + "px";
+        confetti.style.animationDuration = (Math.random()*3 + 2) + "s";
+        confetti.style.transform = "rotate(" + (Math.random()*360) + "deg)";
+
+        setTimeout(()=>{ confetti.remove(); }, 5000);
+      }
+    }
+  </script>
+</body>
+</html>
